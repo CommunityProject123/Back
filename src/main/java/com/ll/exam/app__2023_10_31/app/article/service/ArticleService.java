@@ -1,5 +1,6 @@
 package com.ll.exam.app__2023_10_31.app.article.service;
 
+import com.ll.exam.app__2023_10_31.app.article.dto.request.ArticleModifyDto;
 import com.ll.exam.app__2023_10_31.app.article.entity.Article;
 import com.ll.exam.app__2023_10_31.app.article.repository.ArticleRepository;
 import com.ll.exam.app__2023_10_31.app.member.entity.Member;
@@ -41,5 +42,15 @@ public class ArticleService {
 
     public boolean actorCanDelete(MemberContext memberContext, Article article) {
         return memberContext.getId() == article.getAuthor().getId();
+    }
+
+    public void modify(Article article, ArticleModifyDto articleModifyDto) {
+        article.setSubject(articleModifyDto.getSubject());
+        article.setContent(articleModifyDto.getContent());
+        articleRepository.save(article);
+    }
+
+    public boolean actorCanModify(MemberContext memberContext, Article article) {
+        return actorCanDelete(memberContext, article);
     }
 }
