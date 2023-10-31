@@ -3,13 +3,13 @@ package com.ll.exam.app__2023_10_31.app.member.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.exam.app__2023_10_31.app.base.entity.BaseEntity;
 import com.ll.exam.app__2023_10_31.util.Util;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
