@@ -6,10 +6,12 @@ import com.ll.exam.app__2023_10_31.app.article.service.ArticleService;
 import com.ll.exam.app__2023_10_31.app.base.dto.RsData;
 import com.ll.exam.app__2023_10_31.app.security.entity.MemberContext;
 import com.ll.exam.app__2023_10_31.util.Util;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.validation.Valid;
 import java.util.List;
@@ -57,7 +59,10 @@ public class ArticlesController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<RsData> delete(@PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext) {
+    public ResponseEntity<RsData> delete(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @AuthenticationPrincipal MemberContext memberContext
+    ) {
         Article article = articleService.findById(id).orElse(null);
 
         if (article == null) {
