@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/member")
@@ -24,6 +26,11 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+
+    @GetMapping("hello")
+    public List<String> Hello(){
+        return Arrays.asList("서버 포트는 8080", "리액트 포트는 3000");
+    }
 
     @GetMapping("/test")
     public String test(@AuthenticationPrincipal MemberContext memberContext) {
