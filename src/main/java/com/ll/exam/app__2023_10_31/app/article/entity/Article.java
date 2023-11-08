@@ -25,11 +25,11 @@ public class Article extends BaseEntity {
     private String content;
 
     @OneToMany(mappedBy = "article", cascade = {CascadeType.ALL})
-    private List<Comment> answerList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
     public void addComment(Comment comment) {
         comment.setArticle(this);
-        getAnswerList().add(comment);
+        getCommentList().add(comment);
     }
 
 

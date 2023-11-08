@@ -18,9 +18,10 @@ public class CommentService {
                 .author(author)
                 .content(content)
                 .build();
-        article.addComment(comment);
+        // 여기가 문제
+//        article.addComment(comment);
 
-        commentRepository.save(article);
+        commentRepository.save(comment);
 
         return comment;
     }
