@@ -1,9 +1,11 @@
 package com.ll.exam.app__2023_10_31.app.article.controller;
 
-import com.ll.exam.app__2023_10_31.app.article.dto.request.ArticleModifyDto;
+import com.ll.exam.app__2023_10_31.app.article.dto.request.ArticleDto;
 import com.ll.exam.app__2023_10_31.app.article.entity.Article;
 import com.ll.exam.app__2023_10_31.app.article.service.ArticleService;
 import com.ll.exam.app__2023_10_31.app.base.dto.RsData;
+import com.ll.exam.app__2023_10_31.app.member.entity.Member;
+import com.ll.exam.app__2023_10_31.app.member.service.MemberService;
 import com.ll.exam.app__2023_10_31.app.security.entity.MemberContext;
 import com.ll.exam.app__2023_10_31.util.Util;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Scanner;
 
 @RestController
 @RequestMapping("/articles")
 @RequiredArgsConstructor
 public class ArticlesController {
     private final ArticleService articleService;
+    private final MemberService memberService;
 
     @GetMapping("")
     public ResponseEntity<RsData> list() {
@@ -94,7 +96,7 @@ public class ArticlesController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<RsData> modify(@PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext, @Valid @RequestBody ArticleModifyDto articleModifyDto) {
+    public ResponseEntity<RsData> modify(@PathVariable Long id, @AuthenticationPrincipal MemberContext memberContext, @Valid @RequestBody ArticleDto articleDto) {
         Article article = articleService.findById(id).orElse(null);
 
         if (article == null) {
@@ -115,7 +117,7 @@ public class ArticlesController {
             );
         }
 
-        articleService.modify(article, articleModifyDto);
+        articleService.modify(article, articleDto);
 
         return Util.spring.responseEntityOf(
                 RsData.of(
@@ -123,5 +125,31 @@ public class ArticlesController {
                         "해당 게시물이 수정되었습니다."
                 )
         );
+    }
+
+    @PostMapping("")
+    public ResponseEntity<RsData> create(@AuthenticationPrincipal MemberContext memberContext, @Valid @RequestBody ArticleDto articleDto) {
+
+        Member author = memberService.findByUsername(memberContext.getUsername()).orElseThrow();
+
+        // ArticleService의 write 메서드를 사용하여 글 생성
+        Article article = articleService.write(author, articleDto.getSubject(), articleDto.getContent());
+
+        // article이 성공적으로 생성되면 ID나 다른 정보를 반환하거나, 성공 여부에 따른 응답을 작성
+        if (article != null) {
+            return Util.spring.responseEntityOf(
+                    RsData.of(
+                            "S-1",
+                            "글이 성공적으로 생성되었습니다."
+                    )
+            );
+        } else {
+            return Util.spring.responseEntityOf(
+                    RsData.of(
+                            "F-3",
+                            "글 생성 중 오류가 발생했습니다."
+                    )
+            );
+        }
     }
 }
