@@ -2,13 +2,14 @@ package com.ll.exam.app__2023_10_31.app.article.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.exam.app__2023_10_31.app.base.entity.BaseEntity;
+import com.ll.exam.app__2023_10_31.app.comment.entity.Comment;
 import com.ll.exam.app__2023_10_31.app.member.entity.Member;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -22,6 +23,15 @@ public class Article extends BaseEntity {
     private Member author;
     private String subject;
     private String content;
+
+    @OneToMany(mappedBy = "article", cascade = {CascadeType.ALL})
+    private List<Comment> answerList = new ArrayList<>();
+
+    public void addComment(Comment comment) {
+        comment.setArticle(this);
+        getAnswerList().add(comment);
+    }
+
 
     public Article(long id) {
         super(id);
