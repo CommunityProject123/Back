@@ -1,12 +1,13 @@
 package com.ll.exam.app__2023_10_31.app.comment.service;
 
 import com.ll.exam.app__2023_10_31.app.article.entity.Article;
-import com.ll.exam.app__2023_10_31.app.article.repository.ArticleRepository;
 import com.ll.exam.app__2023_10_31.app.comment.entity.Comment;
 import com.ll.exam.app__2023_10_31.app.comment.repository.CommentRepository;
 import com.ll.exam.app__2023_10_31.app.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +25,9 @@ public class CommentService {
         commentRepository.save(comment);
 
         return comment;
+    }
+
+    public List<Comment> findByArticleId(Long id) {
+        return commentRepository.findByArticleId(id);
     }
 }
