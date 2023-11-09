@@ -24,9 +24,10 @@ public class Comment extends BaseEntity {
     @ManyToOne
     private Member author;
 
+    //    @JoinColumn(name = "article_id")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+
     @ManyToOne
-    @JoinColumn(name = "article_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Article article;
 
     private String content;

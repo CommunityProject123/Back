@@ -25,9 +25,13 @@ import java.util.Map;
 public class Member extends BaseEntity {
     @Column(unique = true)
     private String username;
+
     @JsonIgnore
     private String password;
+
+    @Column(unique = true)
     private String email;
+
     @Column(columnDefinition = "TEXT")
     private String accessToken;
 
